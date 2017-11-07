@@ -4,12 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webenginewidgets webchannel
+QT       += core gui widgets webenginewidgets webchannel websockets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = echarts
 TEMPLATE = app
+CONFIG += warn_on
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -25,10 +26,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    bdchart.cpp
+    bdchart.cpp \
+    websocketclientwrapper.cpp \
+    websockettransport.cpp \
+    previewpage.cpp
 
 HEADERS  += mainwindow.h \
-    bdchart.h
+    bdchart.h \
+    websocketclientwrapper.h \
+    websockettransport.h \
+    previewpage.h
 
 FORMS    += mainwindow.ui
 

@@ -11,8 +11,11 @@ public:
     explicit BDChart(QObject *parent = 0);
 
 signals:
+    void signalTest();
 
 public slots:
+    void slotTest();
+    void slotBack();
 };
 
 #endif // BDCHART_H

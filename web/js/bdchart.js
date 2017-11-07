@@ -1,107 +1,92 @@
-var data = [
-    [96.24, 11.35],
-    [33.09, 85.11],
-    [57.60, 36.61],
-    [36.77, 27.26],
-    [20.10, 6.72],
-    [45.53, 36.37],
-    [110.07, 80.13],
-    [72.05, 20.88],
-    [39.82, 37.15],
-    [48.05, 70.50],
-    [0.85, 2.57],
-    [51.66, 63.70],
-    [61.07, 127.13],
-    [64.54, 33.59],
-    [35.50, 25.01],
-    [226.55, 664.02],
-    [188.60, 175.31],
-    [81.31, 108.68]
-];
+!function() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
 
-// See https://github.com/ecomfe/echarts-stat
-var myRegression = ecStat.regression('polynomial', data, 3);
-
-myRegression.points.sort(function(a, b) {
-    return a[0] - b[0];
-});
-
-option = {
-
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross'
-        }
-    },
-    title: {
-        text: '18 companies net profit and main business income (million)',
-        subtext: 'By ecStat.regression',
-        sublink: 'https://github.com/ecomfe/echarts-stat',
-        left: 'center',
-        top: 16
-    },
-    xAxis: {
-        type: 'value',
-        splitLine: {
-            lineStyle: {
-                type: 'dashed'
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'Demo'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量', '最新销量', '总销量', '最新成交价格', '价格', '总价格']
+        },
+        xAxis: {
+            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
+            axisLabel: {
+                interval: 1
             }
         },
-        splitNumber: 20
-    },
-    yAxis: {
-        type: 'value',
-        min: -40,
-        splitLine: {
-            lineStyle: {
-                type: 'dashed'
-            }
-        }
-    },
-    grid: {
-        top: 90
-    },
-    series: [{
-        name: 'scatter',
-        type: 'scatter',
-        label: {
-            emphasis: {
-                show: true,
-                position: 'right',
-                textStyle: {
-                    color: 'blue',
-                    fontSize: 16
-                }
+        yAxis: [{
+            type: 'value',
+            name: '价格',
+            max: 30,
+            min: 0,
+            positon: 'left'
+        }, {
+            type: 'value',
+            name: '销量',
+            max: 1200,
+            min: 0,
+            position: 'right'
+        }],
+        series: [{
+            name: "最新成交价格",
+            type: 'line',
+            yAxisIndex: 0,
+            data: [5, 20, 28, 10, 10, 20]
+        }, {
+            name: "价格",
+            type: 'scatter',
+            yAxisIndex: 0,
+            data: [3, 17, 8, 19, 14, 30]
+        }, {
+            name: "总价格",
+            type: 'line',
+            smooth: true,
+            yAxisIndex: 0,
+            data: [21, 15, 21, 9, 4, 28]
+        }, {
+            name: '销量',
+            type: 'bar',
+            yAxisIndex: 1,
+            data: [50, 200, 360, 100, 100, 200]
+        }, {
+            name: '最新销量',
+            type: 'bar',
+            stack: '销量1',
+            yAxisIndex: 1,
+            data: [23, 34, 55, 78, 90, 200]
+        }, {
+            name: '总销量',
+            type: 'bar',
+            stack: '销量1',
+            yAxisIndex: 1,
+            data: [230, 340, 550, 780, 900, 200]
+        }]
+    };
+
+    var legendData;
+
+    var option1 = {
+        title: {
+            text: 'Demo'
+        },
+        tooltip: {},
+        legend: {
+            data: []
+        },
+        xAxis: {
+            data: [],
+            axisLabel: {
+                interval: 1
             }
         },
-        data: data
-    }, {
-        name: 'line',
-        type: 'line',
-        smooth: true,
-        showSymbol: false,
-        data: myRegression.points,
-        markPoint: {
-            itemStyle: {
-                normal: {
-                    color: 'transparent'
-                }
-            },
-            label: {
-                normal: {
-                    show: true,
-                    position: 'left',
-                    formatter: myRegression.expression,
-                    textStyle: {
-                        color: '#333',
-                        fontSize: 14
-                    }
-                }
-            },
-            data: [{
-                coord: myRegression.points[myRegression.points.length - 1]
-            }]
-        }
-    }]
-};
+        yAxis: [{
+            positon: 'left'
+        }],
+        series: []
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option1);
+}
