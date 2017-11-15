@@ -11,7 +11,7 @@ public:
     explicit BDChart(QObject *parent = 0);
 
 signals:
-    void signalTest();
+    void signalTest(const QByteArray &message);
 
 public slots:
     void slotTest();

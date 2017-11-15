@@ -38,15 +38,37 @@
                 title: {
                     text: 'Demo1'
                 },
-                tooltip: {},
+                tooltip: {
+                    show: true,
+                    // backgroundColor: rgba(50,50,50,0.7),
+                    borderColor: '#333',
+                },
                 legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'auto',
+                    show: true,
                     data: ['1']
                 },
+                grid: {
+                    show: true,
+                    left: 100
+                },
                 xAxis: {
-                    data: ["2","3","4"]
+                    type: 'category',
+                    axisLabel: {
+                        interval: 'auto',
+                        rotate: 90.0
+                    },
+                    data: ['2month','3month','4month', '5month']
                 },
                 yAxis: {
-
+                    positon: 'left',
+                    type: 'value',
+                    name: '',
+                    min: null,
+                    max: null 
                 },
                 series: [
                     {
@@ -57,25 +79,16 @@
                 ]
             };
             // 使用刚指定的配置项和数据显示图表。
-            //myChart.setOption(option);
-            // var baseUrl = 'ws://localhost:12345';
-            // var socket1 = new WebSocket(baseUrl);
-            // socket1.onopen = function() {
-            //     new QWebChannel(socket1, function(channel) {
-            //         //获取Qt类交互对象
-            //         var chartManager = channel.objects.chartManager;
-            //         chartManager.slotBack();
-            //         chartManager.signalTest.connect(function(){
-                        
-            //             myChart.setOption(option);
-            //         });
-            //     });
-            // }
+            myChart.setOption(option);  
             new QWebChannel(qt.webChannelTransport, function(channel) {
                 var chartManager = channel.objects.chartManager;
-                chartManager.signalTest.connect(function(){
-                    myChart.setOption(option);
-                    chartManager.slotBack();
+                chartManager.signalTest.connect(function(message){
+                    var temp = eval("("+message+")");
+                    option1.title = temp.Title;
+                    option1.legend.data = temp.legend;
+                    option1.xAxis.data = temp.xData;
+                    option1.series[0].data = temp.yData;
+                    myChart.setOption(option1);
                 });
             })
         }
